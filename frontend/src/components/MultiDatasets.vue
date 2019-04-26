@@ -1,12 +1,12 @@
 <template>
   <div>
     <p>MultiDatasets</p>
-    <ul>
-      <li v-for="(dataset, index) in datasets" :key="index">
-        <input type="radio" :value="dataset" v-model="selected_dataset">
-        {{dataset}}
-      </li>
+
+    <ul v-for="(dataset, index) in datasets" :key="index">
+      <input type="radio" :value="dataset" v-model="selected_dataset">
+      {{dataset}}
     </ul>
+
     <button @click="setDataset">Set Dataset</button>
   </div>
 </template>

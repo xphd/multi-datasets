@@ -13,6 +13,8 @@ const PORT = 9090;
 server.listen(PORT);
 console.log("Server listening " + PORT);
 
+const tinyconf = require("./tinyconf.js");
+
 const grpcClientWrapper = require("./Wrapper/Wrapper.js");
 const TA2PORT = "localhost:50054";
 
@@ -35,6 +37,21 @@ serverSocket.on("connection", socket => {
 
   socket.on("setDatasetReq", selected_dataset => {
     console.log(selected_dataset);
+    try {
+      var configPaths = [require.resolve("./tufts_gt_wisc_configuration.json")];
+      //avoid require to read in json to avoid complications with caching at this point
+      tinyconf(
+        selected_dataset,
+        "static/local_testing_data/",
+        JSON.parse(fs.readFileSync(configPaths[0], "utf8")),
+        configPaths
+      );
+    } catch (err) {
+      console.log("no fallback config file found", err);
+      tinyconf(process.argv, "static/local_testing_data/", {}, [
+        "./tufts_gt_wisc_configuration.json"
+      ]);
+    }
   });
 
   socket.on("helloSearch", () => {

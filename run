@@ -1,2 +1,4 @@
+
+echo {} >> backend/tufts_gt_wisc_configuration.json
 cd backend && yarn serve &
 cd frontend && yarn serve
